@@ -104,7 +104,7 @@ class CarrierFilesTest(TransactionCase):
 
         # I deliver the outgoing shipment.
         action = picking.button_validate()
-        self.env[action["res_model"]].with_context(action["context"]).create(
+        self.env[action["res_model"]].with_context(**action["context"]).create(
             {}
         ).process()
 
@@ -150,7 +150,7 @@ class CarrierFilesTest(TransactionCase):
 
         # I deliver the outgoing shipment.
         action = picking.button_validate()
-        self.env[action["res_model"]].with_context(action["context"]).create(
+        self.env[action["res_model"]].with_context(**action["context"]).create(
             {}
         ).process()
 
@@ -161,7 +161,9 @@ class CarrierFilesTest(TransactionCase):
         # I generate the carrier files of my shipment from the wizard
         wizard = (
             self.env["delivery.carrier.file.generate"]
-            .with_context({"active_ids": picking.ids, "active_model": "stock.picking"})
+            .with_context(
+                **{"active_ids": picking.ids, "active_model": "stock.picking"}
+            )
             .create({})
         )
         wizard.action_generate()

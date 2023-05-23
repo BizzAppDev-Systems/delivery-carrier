@@ -5,7 +5,7 @@
         <field name="name">delivery.carrier.file.generate.form</field>
         <field name="model">delivery.carrier.file.generate</field>
         <field name="arch" type="xml">
-            <form string="Carrier Files">
+            <form>
                 <sheet>
                     <form
                         class="o_form_label"
@@ -16,7 +16,7 @@
                         colspan="4"
                         domain="[('picking_type_id.code', '=', 'outgoing')]"
                     >
-                        <tree string="Delivery Orders">
+                        <tree>
                             <field name="name" />
                             <field name="carrier_id" />
                             <field name="partner_id" />
