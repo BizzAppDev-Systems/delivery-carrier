@@ -1,6 +1,7 @@
 # Copyright 2022 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
+from odoo.exceptions import UserError
 from odoo.tests import Form, TransactionCase
 
 PACKAGE_CODE = "blah-biddy, bloo-blah, blah-blah-biddy, bloo-blah"
@@ -42,3 +43,15 @@ class TestPackagingCode(TransactionCase):
             package_type.package_carrier_type = self.carrier.delivery_type
             package_type.shipper_package_code = PACKAGE_CODE
         self.assertEqual(self.package_type._get_packaging_codes(), EXPECTED_CODES)
+
+    def test_postlogistics_cancel_shipment(self):
+        self.picking = self.env["stock.picking"].create(
+            {
+                "partner_id": self.env.ref("base.partner_demo").id,
+                "picking_type_id": self.env.ref("stock.picking_type_out").id,
+                "location_id": self.env.ref("stock.stock_location_stock").id,
+                "location_dest_id": self.env.ref("stock.stock_location_customers").id,
+            }
+        )
+        with self.assertRaises(UserError):
+            self.carrier.postlogistics_cancel_shipment([self.picking])

@@ -120,4 +120,4 @@ class TestPostlogistics(TestPostlogisticsCommon):
             )
             with self.assertRaisesRegex(UserError, err_msg):
                 self.service_class._request_access_token(self.carrier)
-                self.assertEqual(len(cassette.requests), 1)
+            self.assertEqual(len(cassette.requests), 1)
