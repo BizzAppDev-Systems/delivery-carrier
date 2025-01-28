@@ -114,7 +114,8 @@ class TestPostlogistics(TestPostlogisticsCommon):
     def test_postlogistics_get_token_error(self):
         with recorder.use_cassette("test_token_error") as cassette:
             err_msg = (
-                "Postlogistics service is not accessible at the moment. Error code: 503. "
+                "Postlogistics service is not accessible at the moment. Error code:"
+                " 503. "
                 "Please try again later."
             )
             with self.assertRaisesRegex(UserError, err_msg):

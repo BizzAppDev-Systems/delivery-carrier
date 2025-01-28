@@ -5,7 +5,7 @@ from odoo.tests.common import TransactionCase
 
 from ..postlogistics.web_service import PostlogisticsWebService
 
-ENDPOINT_URL = "https://wedecint.post.ch/"
+ENDPOINT_URL = "https://localhost:8069/"
 CLIENT_ID = "XXX"
 CLIENT_SECRET = "XXX"
 LICENSE = "XXX"

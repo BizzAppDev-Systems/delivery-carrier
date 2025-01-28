@@ -114,7 +114,7 @@ class DeliveryCarrier(models.Model):
     def postlogistics_get_tracking_link(self, picking):
         return (
             "https://service.post.ch/EasyTrack/"
-            "submitParcelData.do?formattedParcelCodes=%s" % picking.carrier_tracking_ref
+            f"submitParcelData.do?formattedParcelCodes={picking.carrier_tracking_ref}"
         )
 
     def postlogistics_cancel_shipment(self, pickings):
@@ -158,7 +158,7 @@ class DeliveryCarrier(models.Model):
         return message
 
     def _compute_can_generate_return(self):
-        res = super(DeliveryCarrier, self)._compute_can_generate_return()
+        res = super()._compute_can_generate_return()
         for carrier in self:
             if carrier.delivery_type == "postlogistics":
                 carrier.can_generate_return = True

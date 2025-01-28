@@ -1,7 +1,7 @@
 # Copyright 2022 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form, TransactionCase
 
 PACKAGE_CODE = "blah-biddy, bloo-blah, blah-blah-biddy, bloo-blah"
 EXPECTED_CODES = ["blah-biddy", "bloo-blah", "blah-blah-biddy", "bloo-blah"]
@@ -13,7 +13,7 @@ class TestPackagingCode(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
-        super(TestPackagingCode, cls).setUpClass()
+        super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.carrier = cls.env.ref("delivery.delivery_carrier")
         cls.carrier.delivery_type = "postlogistics"

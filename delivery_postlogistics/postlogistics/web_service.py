@@ -16,6 +16,9 @@ from PIL import Image
 
 from odoo import _, exceptions
 from odoo.exceptions import UserError
+from odoo.tools.translate import LazyTranslate
+
+_lt = LazyTranslate(__name__, default_lang="en_US")
 
 _logger = logging.getLogger(__name__)
 
@@ -343,7 +346,7 @@ class PostlogisticsWebService:
                     # start with 9 to ensure uniqueness and use 7 digits
                     # of picking number
                     picking_num = _compile_itemnum.sub("", picking.name)
-                    item_number = "9%s" % picking_num[-7:].zfill(7)
+                    item_number = f"9{picking_num[-7:].zfill(7)}"
                 else:
                     item_number = self._get_item_number(picking, pack_counter)
                 item["itemNumber"] = item_number
@@ -369,7 +372,7 @@ class PostlogisticsWebService:
         return item_list
 
     def _prepare_label_definition(self, picking):
-        error_missing = _(
+        error_missing = _lt(
             "You need to configure %s. You can set a default"
             " value in Inventory / Configuration / Delivery / Shipping Methods."
             " You can also set it on delivery method or on the picking."
@@ -460,8 +463,9 @@ class PostlogisticsWebService:
             requests.exceptions.HTTPError,
         ) as error:
             raise UserError(
-                _(
-                    "Postlogistics service is not accessible at the moment. Error code: %s. "
+                _lt(
+                    "Postlogistics service is not accessible at the moment. Error code:"
+                    " %s. "
                     "Please try again later." % (response.status_code or "None")
                 )
             ) from error
@@ -546,7 +550,7 @@ class PostlogisticsWebService:
             response = requests.post(
                 url=generate_label_url,
                 headers={
-                    "Authorization": "Bearer %s" % access_token,
+                    "Authorization": f"Bearer {access_token}",
                     "accept": "application/json",
                     "content-type": "application/json",
                 },
@@ -559,9 +563,10 @@ class PostlogisticsWebService:
                 res["errors"] = response.content.decode("utf-8")
                 _logger.warning(
                     "Shipping label could not be generated.\n"
-                    "Request: %(datas)s\n"
-                    "Response: %(error)s"
-                    % {"datas": json.dumps(data), "error": res["errors"]}
+                    "Request: {datas}\n"
+                    "Response: {error}".format(
+                        datas=json.dumps(data), error=res["errors"]
+                    )
                 )
                 return [res]
 
