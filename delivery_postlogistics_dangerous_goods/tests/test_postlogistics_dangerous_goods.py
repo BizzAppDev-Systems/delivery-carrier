@@ -32,12 +32,7 @@ class TestPostlogisticsDangerousGoods(TestPostlogisticsCommon):
         # no unnumber should be sent through the api
         products = [(self.product_no_lq, 10.0)]
         picking = self.create_picking(product_matrix=products)
-        package_ids = picking._get_quant_packages_from_picking()
-        recipient = picking.postlogistics_label_prepare_recipient()
-        item_list = self.service_class._prepare_item_list(
-            picking, recipient, package_ids
-        )
-        attributes = item_list[0]["attributes"]
+        attributes = picking.postlogistics_label_prepare_attributes()
         self.assertFalse(attributes.get("unnumbers"))
         self.assertNotIn("LQ", attributes["przl"])
 
@@ -46,14 +41,10 @@ class TestPostlogisticsDangerousGoods(TestPostlogisticsCommon):
         # we should have the list of unnumbers
         products = [(self.dangerous_weapon, 10.0)]
         picking = self.create_picking(product_matrix=products)
-        package_ids = picking._get_quant_packages_from_picking()
-        recipient = picking.postlogistics_label_prepare_recipient()
-        item_list = self.service_class._prepare_item_list(
-            picking, recipient, package_ids
-        )
         expected_unnumbers = [
             7,
         ]
-        attributes = item_list[0]["attributes"]
+        attributes = picking.postlogistics_label_prepare_attributes()
+
         self.assertEqual(attributes["unnumbers"], expected_unnumbers)
         self.assertIn("LQ", attributes["przl"])
