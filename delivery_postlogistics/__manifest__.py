@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "category": "Delivery",
     "complexity": "normal",
-    "depends": ["delivery", "mail", "base", "stock", "stock_delivery"],
+    "depends": ["stock_delivery"],
     "website": "https://github.com/OCA/delivery-carrier",
     "data": [
         "security/ir.model.access.csv",

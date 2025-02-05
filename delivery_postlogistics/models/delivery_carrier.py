@@ -1,15 +1,13 @@
 # Copyright 2013-2016 Camptocamp SA
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..postlogistics.web_service import PostlogisticsWebService
 
 
 class DeliveryCarrier(models.Model):
-    """Add service group"""
-
     _inherit = "delivery.carrier"
 
     delivery_type = fields.Selection(
@@ -118,7 +116,7 @@ class DeliveryCarrier(models.Model):
         )
 
     def postlogistics_cancel_shipment(self, pickings):
-        raise UserError(_("This feature is under development"))
+        raise UserError(self.env._("This feature is under development"))
 
     def postlogistics_rate_shipment(self, order):
         self.ensure_one()
@@ -150,8 +148,8 @@ class DeliveryCarrier(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Validated"),
-                "message": _("The credential is valid."),
+                "title": self.env._("Validated"),
+                "message": self.env._("The credential is valid."),
                 "sticky": False,
             },
         }

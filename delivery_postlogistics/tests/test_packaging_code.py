@@ -2,20 +2,21 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
 from odoo.exceptions import UserError
-from odoo.tests import Form, TransactionCase
+from odoo.tests import Form
+
+from .common import TestPostlogisticsCommon
 
 PACKAGE_CODE = "blah-biddy, bloo-blah, blah-blah-biddy, bloo-blah"
 EXPECTED_CODES = ["blah-biddy", "bloo-blah", "blah-blah-biddy", "bloo-blah"]
 
 
-class TestPackagingCode(TransactionCase):
+class TestPackagingCode(TestPostlogisticsCommon):
     at_install = False
     post_install = True
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.carrier = cls.env.ref("delivery.delivery_carrier")
         cls.carrier.delivery_type = "postlogistics"
         cls.package_type = cls.env["stock.package.type"].create(
