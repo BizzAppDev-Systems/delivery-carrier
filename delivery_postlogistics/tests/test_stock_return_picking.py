@@ -1,3 +1,6 @@
+# Copyright 2025 BizzAppDev Systems Pvt. Ltd.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo.tests import Form
 
 from .common import TestPostlogisticsCommon
